@@ -33,11 +33,12 @@ def recursive_ls(path, max_depth, current_depth=0, indent = ""):
         
     dirs, files = partition(lambda p: p.is_dir(), path.iterdir())
     for d in filter(lambda v: not v.name.startswith('.'), dirs):
-        print(indent, d.name, style='turquoise2')
+        print(indent, d.name, ':file_folder:', style='turquoise2')
         recursive_ls(d, max_depth, current_depth+1, indent+"  ")
-    for f in files:
+    for i, f in zip(range(10), files):
         if not f.name.startswith('.'):
             print(indent, f.name)
+        if i == 10: print('...')
 
 
 
