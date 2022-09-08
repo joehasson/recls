@@ -1,4 +1,4 @@
-"""Print the """
+#!/usr/bin/env python
 
 from ast import Store
 from csv import field_size_limit
@@ -18,8 +18,6 @@ parser.add_argument('-a', '--all', action='store_true',
 parser.add_argument('-d', '--depth', type=int, default=1,   #add mutual incompatible group for inf
     help='Depth to display nested files, default 2')
 args = parser.parse_args()
-
-
 
 
 def partition(pred, seq):
