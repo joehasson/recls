@@ -40,8 +40,8 @@ def recursive_ls(path, max_depth, current_depth=0, indent = ""):
 
     for i, f in zip(range(5), files):
         if not f.name.startswith('.'):
-            print(indent, f.name)
-        if i == 10: print('...')
+            print(indent, '-', f.name)
+        if i == 9: print(f'{indent} .\n{indent} .\n{indent} .')
 
 
 
