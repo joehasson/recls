@@ -11,7 +11,7 @@ print = Console().print
 parser = argparse.ArgumentParser()
 parser.add_argument('path', type=str, nargs='?', default=os.getcwd(),
     help='Directory from which to search, default current')
-parser.add_argument('-d', '--depth', type=int, default=2, 
+parser.add_argument('-d', '--depth', type=int, default=1, 
     help='Depth to display nested files, default 2')
 parser.add_argument('-g', '--glob', type=str, default='*',
     help='Glob to match for')
