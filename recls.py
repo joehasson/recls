@@ -1,6 +1,7 @@
 """Print the """
 
 from ast import Store
+from csv import field_size_limit
 import os
 import argparse 
 from pathlib import Path
@@ -16,8 +17,6 @@ parser.add_argument('-a', '--all', action='store_true',
     help='Include files beginning with .')
 parser.add_argument('-d', '--depth', type=int, default=1,   #add mutual incompatible group for inf
     help='Depth to display nested files, default 2')
-parser.add_argument('-g', '--glob', type=str, default='*',
-    help='Glob to match for')
 args = parser.parse_args()
 
 
@@ -35,10 +34,9 @@ filter_out_startswith_dot =  lambda path: filter(lambda d: not d.name.startswith
 
 def recursive_ls(path, show_all, max_depth, current_depth=0):
     try:
-
         if current_depth > max_depth:
             return
-            
+    
         dirs, files = partition_files_and_dirs(path.iterdir())
 
         if not show_all:
@@ -51,13 +49,17 @@ def recursive_ls(path, show_all, max_depth, current_depth=0):
             print(indent, '-', d.name, ':file_folder:', style='turquoise2')
             recursive_ls(d, show_all, max_depth, current_depth+1)
 
-        for i, f in (iter:= enumerate(sorted(files))):
-            print(indent, '-', f.name)
-            if i == 4: 
-                print(indent, '-', f'+{(sum(1 for _ in iter))} others', style='yellow')
+        show_files(files, indent)
 
     except PermissionError as e:
         print(e)
+
+
+def show_files(files, indent):
+    for i, f in (iter:= enumerate(sorted(files))):
+            print(indent, '-', f.name)
+            if i == 4: 
+                print(indent, '-', f'+{(sum(1 for _ in iter))} others', style='yellow')
 
 
 
