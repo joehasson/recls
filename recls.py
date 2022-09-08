@@ -27,29 +27,37 @@ def partition(pred, seq):
     seq_copy1, seq_copy2 = tee(seq)
     return filter(pred, seq_copy1), filter(lambda v: not pred(v), seq_copy2)
 
+
+#Helper functions for recursive_ls
 partition_files_and_dirs =lambda i: partition(lambda p: p.is_dir(), i)
+filter_out_startswith_dot =  lambda path: filter(lambda d: not d.name.startswith('.'), path)
 
 
 def recursive_ls(path, show_all, max_depth, current_depth=0):
-    if current_depth > max_depth:
-        return
-        
-    dirs, files = partition_files_and_dirs(path.iterdir())
+    try:
 
-    if not show_all:
-        dirs = filter(lambda d: not d.name.startswith('.'), dirs)
-        files = filter(lambda f: not f.name.startswith('.'), files)
+        if current_depth > max_depth:
+            return
+            
+        dirs, files = partition_files_and_dirs(path.iterdir())
 
-    indent = "  " * current_depth
+        if not show_all:
+            dirs = filter_out_startswith_dot(dirs)
+            files = filter_out_startswith_dot(files)
 
-    for d in dirs:
-        print(indent, '-', d.name, ':file_folder:', style='turquoise2')
-        recursive_ls(d, show_all, max_depth, current_depth+1)
+        indent = "  " * current_depth
 
-    for i, f in enumerate(files):
-        print(indent, '-', f.name)
-        if i == 4: 
-            print(f'{indent} .\n{indent} .\n{indent} .')
+        for d in sorted(dirs):
+            print(indent, '-', d.name, ':file_folder:', style='turquoise2')
+            recursive_ls(d, show_all, max_depth, current_depth+1)
+
+        for i, f in (iter:= enumerate(sorted(files))):
+            print(indent, '-', f.name)
+            if i == 4: 
+                print(indent, '-', f'+{(sum(1 for _ in iter))} others', style='yellow')
+
+    except PermissionError as e:
+        print(e)
 
 
 
