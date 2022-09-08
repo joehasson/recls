@@ -30,15 +30,15 @@ partition_files_and_dirs =lambda i: partition(lambda p: p.is_dir(), i)
 
 def recursive_ls(path, max_depth, current_depth=0, indent = ""):
     if current_depth >= max_depth:
-        print(indent, '...')
         return
         
     dirs, files = partition_files_and_dirs(path.iterdir())
 
     for d in filter(lambda v: not v.name.startswith('.'), dirs):
-        print(indent, d.name, ':file_folder:', style='turquoise2')
+        print(indent, '-', d.name, ':file_folder:', style='turquoise2')
         recursive_ls(d, max_depth, current_depth+1, indent+"  ")
-    for i, f in zip(range(10), files):
+
+    for i, f in zip(range(5), files):
         if not f.name.startswith('.'):
             print(indent, f.name)
         if i == 10: print('...')
