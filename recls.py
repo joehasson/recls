@@ -24,7 +24,6 @@ args = parser.parse_args()
 
 
 def partition(pred, seq):
-    """Make so can pass list of *preds and filter with all?"""
     seq_copy1, seq_copy2 = tee(seq)
     return filter(pred, seq_copy1), filter(lambda v: not pred(v), seq_copy2)
 
@@ -39,7 +38,7 @@ def recursive_ls(path, show_all, max_depth, current_depth=0):
 
     if not show_all:
         dirs = filter(lambda d: not d.name.startswith('.'), dirs)
-        files = filter(lambda d: not d.name.startswith('.'), files)
+        files = filter(lambda f: not f.name.startswith('.'), files)
 
     indent = "  " * current_depth
 
@@ -47,7 +46,7 @@ def recursive_ls(path, show_all, max_depth, current_depth=0):
         print(indent, '-', d.name, ':file_folder:', style='turquoise2')
         recursive_ls(d, show_all, max_depth, current_depth+1)
 
-    for i, f in zip(range(5), files):
+    for i, f in enumerate(files):
         print(indent, '-', f.name)
         if i == 4: 
             print(f'{indent} .\n{indent} .\n{indent} .')
@@ -56,4 +55,4 @@ def recursive_ls(path, show_all, max_depth, current_depth=0):
 
 if __name__ == '__main__':
     path = Path(args.path)
-    recursive_ls(path, args.depth, args.all)
+    recursive_ls(path, args.all, args.depth, 0)
