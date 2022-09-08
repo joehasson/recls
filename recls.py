@@ -25,13 +25,16 @@ def partition(pred, seq):
     seq_copy1, seq_copy2 = tee(seq)
     return filter(pred, seq_copy1), filter(lambda v: not pred(v), seq_copy2)
 
+partition_files_and_dirs =lambda i: partition(lambda p: p.is_dir(), i)
+
 
 def recursive_ls(path, max_depth, current_depth=0, indent = ""):
     if current_depth >= max_depth:
         print(indent, '...')
         return
         
-    dirs, files = partition(lambda p: p.is_dir(), path.iterdir())
+    dirs, files = partition_files_and_dirs(path.iterdir())
+
     for d in filter(lambda v: not v.name.startswith('.'), dirs):
         print(indent, d.name, ':file_folder:', style='turquoise2')
         recursive_ls(d, max_depth, current_depth+1, indent+"  ")
