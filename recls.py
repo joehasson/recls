@@ -48,9 +48,9 @@ def build_tree(path, show_all, max_depth, current_depth=0, t= Tree('')):
 
 
 def add_file_branches(t, files):
-    for i, f in (iter:= enumerate(sorted(files))):
+    for i, f in (iterator:= enumerate(sorted(files))):
         t.add(f.name, style='white')
-        if i == 4 and (num_left := (sum(1 for _ in iter))):
+        if i == 4 and (num_left := (sum(1 for _ in iterator))):
              t.add(f'+{num_left} others', style='yellow')
 
 
