@@ -8,7 +8,9 @@ from pathlib import Path
 from itertools import tee
 
 from rich.console import Console
-print = Console().print
+
+
+print = Console(highlight=False).print
 
 parser = argparse.ArgumentParser()
 parser.add_argument('path', type=str, nargs='?', default=os.getcwd(),
