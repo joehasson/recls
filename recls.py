@@ -65,4 +65,4 @@ def show_files(files, indent):
 
 if __name__ == '__main__':
     path = Path(args.path)
-    recursive_ls(path, args.all, args.depth, 0)
+    recursive_ls(path, args.all, args.depth)
