@@ -7,7 +7,6 @@ from itertools import tee
 
 from rich.console import Console
 
-
 print = Console(highlight=False).print
 
 parser = argparse.ArgumentParser()
@@ -29,6 +28,8 @@ def partition(pred, seq):
 partition_files_and_dirs =lambda i: partition(lambda p: p.is_dir(), i)
 filter_out_startswith_dot =  lambda path: filter(lambda d: not d.name.startswith('.'), path)
 
+def format_line(d):
+    return f'- {d.name}'
 
 def recursive_ls(path, show_all, max_depth, current_depth=0):
     try:
@@ -44,7 +45,7 @@ def recursive_ls(path, show_all, max_depth, current_depth=0):
         indent = "  " * current_depth
 
         for d in sorted(dirs):
-            print(indent, '-', d.name, ':file_folder:', style='bold bright_cyan')
+            print(indent, format_line(d), ':file_folder:', style='bold bright_cyan')
             recursive_ls(d, show_all, max_depth, current_depth+1)
 
         show_files(files, indent)
@@ -55,7 +56,7 @@ def recursive_ls(path, show_all, max_depth, current_depth=0):
 
 def show_files(files, indent):
     for i, f in (iter:= enumerate(sorted(files))):
-            print(indent, '-', f.name)
+            print(indent, format_line(f))
             if i == 4 and (num_left := (sum(1 for _ in iter))):
                 print(indent, '-', f'+{num_left} others', style='yellow')
 
