@@ -56,8 +56,8 @@ def recursive_ls(path, show_all, max_depth, current_depth=0):
 def show_files(files, indent):
     for i, f in (iter:= enumerate(sorted(files))):
             print(indent, '-', f.name)
-            if i == 4 and (remaining := (sum(1 for _ in iter))):
-                print(indent, '-', f'+{remaining} others', style='yellow')
+            if i == 4 and (num_left := (sum(1 for _ in iter))):
+                print(indent, '-', f'+{num_left} others', style='yellow')
 
 
 
