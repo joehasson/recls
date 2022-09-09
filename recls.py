@@ -35,12 +35,12 @@ partition_files_and_dirs =lambda i: partition(lambda p: p.is_dir(), i)
 filter_out_startswith_dot =  lambda path: filter(lambda d: not d.name.startswith('.'), path)
 
 
-def build_tree(path, show_all, max_depth, current_depth=0, t= Tree('')):
+def build_tree(root, show_all, max_depth, current_depth=0, t= Tree('')):
     try:
         if current_depth > max_depth:
             return t
     
-        dirs, files = partition_files_and_dirs(path.iterdir())
+        dirs, files = partition_files_and_dirs(root.iterdir())
 
         if not show_all:
             dirs = filter_out_startswith_dot(dirs)
