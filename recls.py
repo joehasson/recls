@@ -2,12 +2,12 @@
 
 import os
 import argparse 
-from pathlib import Path
 from itertools import tee
+from pathlib import Path
 
-from rich.console import Console
-
-print = Console(highlight=False).print
+from rich import print
+from rich.text import Text
+from rich.tree import Tree
 
 parser = argparse.ArgumentParser()
 parser.add_argument('path', type=str, nargs='?', default=os.getcwd(),
@@ -19,6 +19,12 @@ parser.add_argument('-d', '--depth', type=int, default=1,   #add mutual incompat
 args = parser.parse_args()
 
 
+def get_dir_richtext(d):
+    t = Text(d.name + " 📁")
+    t.stylize('bold bright_cyan')
+    return t
+
+
 def partition(pred, seq):
     seq_copy1, seq_copy2 = tee(seq)
     return filter(pred, seq_copy1), filter(lambda v: not pred(v), seq_copy2)
@@ -28,13 +34,11 @@ def partition(pred, seq):
 partition_files_and_dirs =lambda i: partition(lambda p: p.is_dir(), i)
 filter_out_startswith_dot =  lambda path: filter(lambda d: not d.name.startswith('.'), path)
 
-def format_line(d):
-    return f'- {d.name}'
 
-def recursive_ls(path, show_all, max_depth, current_depth=0):
+def build_tree(path, show_all, max_depth, current_depth=0, t= Tree('')):
     try:
         if current_depth > max_depth:
-            return
+            return t
     
         dirs, files = partition_files_and_dirs(path.iterdir())
 
@@ -42,26 +46,26 @@ def recursive_ls(path, show_all, max_depth, current_depth=0):
             dirs = filter_out_startswith_dot(dirs)
             files = filter_out_startswith_dot(files)
 
-        indent = "  " * current_depth
-
         for d in sorted(dirs):
-            print(indent, format_line(d), '📁', style='bold bright_cyan')
-            recursive_ls(d, show_all, max_depth, current_depth+1)
+            branch = t.add(get_dir_richtext(d))
+            build_tree(d, show_all, max_depth, current_depth+1, branch)
 
-        show_files(files, indent)
+        add_file_branches(t, files)
+        return t
 
     except PermissionError as e:
         print(e)
 
 
-def show_files(files, indent):
+def add_file_branches(t, files):
     for i, f in (iter:= enumerate(sorted(files))):
-            print(indent, format_line(f))
-            if i == 4 and (num_left := (sum(1 for _ in iter))):
-                print(indent, '-', f'+{num_left} others', style='yellow')
+        t.add(f.name)
+        if i == 4 and (num_left := (sum(1 for _ in iter))):
+             t.add(Text(f'+{num_left} others', style='yellow'))
 
 
 
 if __name__ == '__main__':
     path = Path(args.path)
-    recursive_ls(path, args.all, args.depth)
+    t = build_tree(path, args.all, args.depth)
+    print(t)
