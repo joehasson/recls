@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 
-from ast import Store
-from csv import field_size_limit
 import os
 import argparse 
 from pathlib import Path
