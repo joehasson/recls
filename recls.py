@@ -46,7 +46,7 @@ def recursive_ls(path, show_all, max_depth, current_depth=0):
         indent = "  " * current_depth
 
         for d in sorted(dirs):
-            print(indent, '-', d.name, ':file_folder:', style='turquoise2')
+            print(indent, '-', d.name, ':file_folder:', style='bold bright_cyan')
             recursive_ls(d, show_all, max_depth, current_depth+1)
 
         show_files(files, indent)
