@@ -21,6 +21,7 @@ parser.add_argument('-d', '--depth', type=int, default=2,   #add mutual incompat
     help='Depth to display nested files, default 2')
 args = parser.parse_args()
 
+
 arg_to_filters = {
     'all':  make_filter(lambda path: not path.name.startswith('.')),
     'quiet': make_filter(is_dir)
