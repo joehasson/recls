@@ -8,6 +8,9 @@ from pathlib import Path
 from rich import print
 from rich.tree import Tree
 
+from recls_utils import apply, partition_files_and_dirs
+
+
 parser = argparse.ArgumentParser()
 parser.add_argument('path', type=str, nargs='?', default=os.getcwd(),
     help='Directory from which to search, default current')
@@ -18,13 +21,10 @@ parser.add_argument('-d', '--depth', type=int, default=1,   #add mutual incompat
 args = parser.parse_args()
 
 
-def partition(pred, seq):
-    seq_copy1, seq_copy2 = tee(seq)
-    return filter(pred, seq_copy1), filter(lambda v: not pred(v), seq_copy2)
+arg_to_filters = {
+    args.all: lambda d: not d.name.startswith('.')
+}
 
-#Helper functions for recursive_ls
-partition_files_and_dirs =lambda i: partition(lambda p: p.is_dir(), i)
-filter_out_startswith_dot =  lambda path: filter(lambda d: not d.name.startswith('.'), path)
 
 
 def build_tree(path, show_all, max_depth, current_depth=0, t= Tree('')):
@@ -52,7 +52,6 @@ def add_file_branches(t, files):
         t.add(f.name, style='white')
         if i == 4 and (num_left := (sum(1 for _ in iterator))):
              t.add(f'+{num_left} others', style='yellow')
-
 
 
 if __name__ == '__main__':
