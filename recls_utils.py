@@ -12,4 +12,5 @@ def partition(pred, seq):
     seq_copy1, seq_copy2 = tee(seq)
     return filter(pred, seq_copy1), filter(lambda v: not pred(v), seq_copy2)
 
-partition_files_and_dirs =lambda i: partition(lambda p: p.is_dir(), i)
+is_dir = lambda p: p.is_dir()
+partition_files_and_dirs =lambda i: partition(is_dir, i)
