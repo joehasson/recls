@@ -2,7 +2,6 @@
 
 import os
 import argparse 
-from itertools import tee
 from pathlib import Path
 
 from rich import print
@@ -36,14 +35,14 @@ def build_tree(path, filters, max_depth, current_depth=0, t= Tree('')):
                 branch = t.add(f'[bold bright_cyan]{d.name}[/]' + " 📁")
                 build_tree(d, filters, max_depth, current_depth+1, branch)
 
-            add_file_branches(t, files)
+            add_file_branches(files, t)
         return t
 
     except PermissionError as e:
         print(e)
 
 
-def add_file_branches(t, files):
+def add_file_branches(files, t):
     for i, f in (iterator:= enumerate(sorted(files))):
         t.add(f.name, style='white')
         if i == 4 and (num_left := (sum(1 for _ in iterator))):
