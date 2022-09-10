@@ -7,7 +7,7 @@ from pathlib import Path
 from rich import print
 from rich.tree import Tree
 
-from recls_utils import apply, is_dir, partition_files_and_dirs
+from recls_utils import apply, is_dir, make_filter, partition_files_and_dirs
 
 
 parser = argparse.ArgumentParser()
@@ -22,8 +22,8 @@ parser.add_argument('-d', '--depth', type=int, default=2,   #add mutual incompat
 args = parser.parse_args()
 
 arg_to_filters = {
-    'all': lambda paths: filter(lambda d: not d.name.startswith('.'), paths), 
-    'quiet': lambda paths: filter(is_dir, paths)
+    'all':  make_filter(lambda path: not path.name.startswith('.')),
+    'quiet': make_filter(is_dir)
 } #not a robust solution ? => relies on synchronicity between strs here and parameters
 
 

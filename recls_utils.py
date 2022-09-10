@@ -7,6 +7,8 @@ def apply(funcs: Iterable[Callable], arg: Any) -> Any:
     """Call functions in funcs from left to right on arg and return result"""
     return reduce(lambda acc, f: f(acc), funcs, arg)
         
+def make_filter(predicate):
+    return lambda x: filter(predicate, x)
 
 def partition(pred, seq):
     seq_copy1, seq_copy2 = tee(seq)
