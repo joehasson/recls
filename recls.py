@@ -26,19 +26,15 @@ arg_to_filters = {
 }
 
 
-
-def build_tree(path, show_all, max_depth, current_depth=0, t= Tree('')):
+def build_tree(path, filters, max_depth, current_depth=0, t= Tree('')):
     try:
         if current_depth <= max_depth:
-            dirs, files = partition_files_and_dirs(path.iterdir())
-
-            if not show_all:
-                dirs = filter_out_startswith_dot(dirs)
-                files = filter_out_startswith_dot(files)
+            paths = apply(filters, path.iterdir())
+            dirs, files = partition_files_and_dirs(paths)
 
             for d in sorted(dirs):
                 branch = t.add(f'[bold bright_cyan]{d.name}[/]' + " 📁")
-                build_tree(d, show_all, max_depth, current_depth+1, branch)
+                build_tree(d, filters, max_depth, current_depth+1, branch)
 
             add_file_branches(t, files)
         return t
@@ -56,5 +52,6 @@ def add_file_branches(t, files):
 
 if __name__ == '__main__':
     path = Path(args.path)
-    t = build_tree(path, args.all, args.depth)
+    filters = (v for k, v in arg_to_filters.items() if k)
+    t = build_tree(path, filters, args.depth)
     print(t)
