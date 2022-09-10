@@ -13,7 +13,7 @@ from recls_utils import apply, partition_files_and_dirs
 parser = argparse.ArgumentParser()
 parser.add_argument('path', type=str, nargs='?', default=os.getcwd(),
     help='Directory from which to search, default current')
-parser.add_argument('-a', '--all', action='store_true',
+parser.add_argument('-a', '--all', action='store_false',
     help='Include files beginning with .')
 parser.add_argument('-d', '--depth', type=int, default=1,   #add mutual incompatible group for inf
     help='Depth to display nested files, default 2')
@@ -21,11 +21,11 @@ args = parser.parse_args()
 
 
 arg_to_filters = {
-    args.all: lambda d: not d.name.startswith('.')
+    args.all: lambda paths: filter(lambda d: not d.name.startswith('.'), paths)
 }
 
 
-def build_tree(path, filters, max_depth, current_depth=0, t= Tree('')):
+def build_tree(path, filters, max_depth, current_depth=0, t= Tree('root', style='light_steel_blue')):
     try:
         if current_depth <= max_depth:
             paths = apply(filters, path.iterdir())
