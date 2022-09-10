@@ -13,4 +13,3 @@ def partition(pred, seq):
     return filter(pred, seq_copy1), filter(lambda v: not pred(v), seq_copy2)
 
 partition_files_and_dirs =lambda i: partition(lambda p: p.is_dir(), i)
-filter_out_startswith_dot =  lambda path: filter(lambda d: not d.name.startswith('.'), path)
