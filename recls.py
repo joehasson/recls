@@ -26,21 +26,23 @@ arg_to_filters = {
     'quiet': lambda paths: filter(is_dir, paths)
 } #not a robust solution ? => relies on synchronicity between strs here and parameters
 
+
 def build_tree(path, filters, t_depth, t= Tree('root', style='light_steel_blue')):
     try:
         if t_depth:
             paths = apply(filters, path.iterdir())
             dirs, files = partition_files_and_dirs(paths)
-
-            for d in sorted(dirs):
-                branch = t.add(f'[bold bright_cyan]{d.name}[/]' + " 📁")
-                build_tree(d, filters, t_depth-1, branch)
-
+            add_dir_branches(dirs, filters, t_depth-1, t)
             add_file_branches(files, t)
         return t
-
     except PermissionError as e:
         print(e)
+
+
+def add_dir_branches(dirs, filters, branch_depth, t):
+    for d in sorted(dirs):
+        branch = t.add(f'[bold bright_cyan]{d.name}[/]' + " 📁")
+        build_tree(d, filters, branch_depth, branch)
 
 
 def add_file_branches(files, t):
