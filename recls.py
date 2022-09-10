@@ -17,7 +17,7 @@ parser.add_argument('-a', '--all', action='store_false',
     help='Include files beginning with .')
 parser.add_argument('-q', '--quiet', action='store_true',
     help='Do not include files, only directories')
-parser.add_argument('-d', '--depth', type=int, default=2,   #add mutual incompatible group for inf
+parser.add_argument('-d', '--depth', type=int, default=2,
     help='Depth to display nested files, default 2')
 args = parser.parse_args()
 
@@ -25,7 +25,7 @@ args = parser.parse_args()
 arg_to_filters = {
     'all':  make_filter(lambda path: not path.name.startswith('.')),
     'quiet': make_filter(is_dir)
-} #not a robust solution ? => relies on synchronicity between strs here and parameters
+} 
 
 
 def build_tree(path, filters, t_depth, t= Tree('root', style='light_steel_blue')):
