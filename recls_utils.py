@@ -1,7 +1,7 @@
 from itertools import tee
 from functools import reduce
 from collections.abc import Iterable
-from typing import Any, Callable, Tuple
+from typing import Any, Callable
 
 def apply(funcs: Iterable[Callable], arg: Any) -> Any:
     """Call functions in funcs from left to right on arg and return result"""
