@@ -7,7 +7,7 @@ from pathlib import Path
 from rich import print
 from rich.tree import Tree
 
-from recls_utils import apply, partition_files_and_dirs
+from recls_utils import apply, is_dir, partition_files_and_dirs
 
 
 parser = argparse.ArgumentParser()
@@ -15,6 +15,8 @@ parser.add_argument('path', type=str, nargs='?', default=os.getcwd(),
     help='Directory from which to search, default current')
 parser.add_argument('-a', '--all', action='store_false',
     help='Include files beginning with .')
+parser.add_argument('-q', '--quiet', action='store_false',
+    help='Do not include files, only directories')
 parser.add_argument('-d', '--depth', type=int, default=1,   #add mutual incompatible group for inf
     help='Depth to display nested files, default 2')
 args = parser.parse_args()
@@ -22,6 +24,7 @@ args = parser.parse_args()
 
 arg_to_filters = {
     args.all: lambda paths: filter(lambda d: not d.name.startswith('.'), paths)
+    args.quiet: lambda paths: filter(is_dir, paths)
 }
 
 
