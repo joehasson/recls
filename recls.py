@@ -52,7 +52,7 @@ def add_dir_branches(dirs: filter, filters: Tuple, branch_depth: int, t: Tree) -
         build_tree(d, filters, branch_depth, branch)
 
 
-def add_file_branches(files, t) -> None:
+def add_file_branches(files: filter, t: Tree) -> None:
     """Add branches to tree for each file in path in-place up to max of five"""
     for i, f in (iterator:= enumerate(sorted(files))):
         t.add(f.name, style='white')
