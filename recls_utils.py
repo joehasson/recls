@@ -18,8 +18,11 @@ def partition(pred: Callable[[Any], bool], seq: Iterable) -> Tuple[filter, filte
     seq_copy1, seq_copy2 = tee(seq)
     return filter(pred, seq_copy1), filter(lambda v: not pred(v), seq_copy2)
 
-is_dir = lambda p: p.is_dir()
-partition_files_and_dirs =lambda i: partition(is_dir, i)
+def is_dir(path):
+    path.is_dir()
+
+def partition_files_and_dirs(paths):
+    partition(is_dir, paths)
 
 filter_out_files = make_filter(is_dir)
 filter_hidden_files_and_dirs = make_filter(lambda path: not path.name.startswith('.'))
