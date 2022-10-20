@@ -29,6 +29,7 @@ arg_to_filters = {
 
 
 def build_tree(path, filters, t_depth, t= Tree('root', style='light_steel_blue')):
+    """Generates the rich Tree object which represents directory structure"""
     try:
         if t_depth:
             paths = apply(filters, path.iterdir())
@@ -40,7 +41,8 @@ def build_tree(path, filters, t_depth, t= Tree('root', style='light_steel_blue')
         print(e)
 
 
-def add_dir_branches(dirs, filters, branch_depth, t):
+def add_dir_branches(dirs, filters, branch_depth, t) -> None:
+    """Add branches to tree for each directory in path in-place"""
     for d in sorted(dirs):
         branch = t.add(f'[bold bright_cyan]{d.name}[/]' + " 📁")
         build_tree(d, filters, branch_depth, branch)
