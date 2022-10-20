@@ -4,8 +4,8 @@ import os
 import argparse 
 from pathlib import Path
 
-from rich import print
-from rich.tree import Tree
+from rich import print # type: ignore
+from rich.tree import Tree # type: ignore
 
 from recls_utils import apply, is_dir, make_filter, partition_files_and_dirs
 
