@@ -20,3 +20,6 @@ def partition(pred: Callable[[Any], bool], seq: Iterable) -> Tuple[filter, filte
 
 is_dir = lambda p: p.is_dir()
 partition_files_and_dirs =lambda i: partition(is_dir, i)
+
+filter_out_files = make_filter(is_dir)
+filter_hidden_files_and_dirs = make_filter(lambda path: not path.name.startswith('.'))

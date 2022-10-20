@@ -65,3 +65,4 @@ if __name__ == '__main__':
     filters = tuple(v for k, v in arg_to_filters.items() if getattr(args, k))
     t = build_tree(path, filters, args.depth)
     print(t)
+
