@@ -45,8 +45,8 @@ def build_tree(path: Path,
         print(e)
 
 
-def add_dir_branches(dirs: filter, filters: Tuple, branch_depth, t) -> None:
-    """Add branches to tree for each directory in path in-place"""
+def add_dir_branches(dirs: filter, filters: Tuple, branch_depth: int, t: Tree) -> None:
+    """Add branches to tree t for each directory in path in-place"""
     for d in sorted(dirs):
         branch = t.add(f'[bold bright_cyan]{d.name}[/]' + " 📁")
         build_tree(d, filters, branch_depth, branch)
