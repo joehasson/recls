@@ -49,9 +49,9 @@ def build_tree(path: Path,
 def add_dir_branches(dirs: filter, filters: Tuple, branch_depth: int, t: Tree) -> None:
     """Add branches to tree t for each directory in path in-place. Note this function is mutually
     recursive with build_tree."""
-    for d in sorted(dirs):
-        branch = t.add(f'[bold bright_cyan]{d.name}[/]' + " 📁")
-        build_tree(d, filters, branch_depth, branch)
+    for directory in sorted(dirs):
+        branch = t.add(f'[bold bright_cyan]{directory.name}[/]' + " 📁")
+        build_tree(directory, filters, branch_depth, branch)
 
 
 def add_file_branches(files: filter, t: Tree) -> None:
