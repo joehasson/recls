@@ -33,7 +33,7 @@ def build_tree(path: Path,
     t_depth: int,
     t: Tree=Tree('root', style='light_steel_blue')
     ) -> Tree:
-    """Generates the rich Tree object which represents directory structure"""
+    """Generates the rich Tree object which represents directory structure."""
     try:
         if t_depth:
             paths = recls_utils.apply(filters, path.iterdir())
@@ -47,7 +47,8 @@ def build_tree(path: Path,
 
 
 def add_dir_branches(dirs: filter, filters: Tuple, branch_depth: int, t: Tree) -> None:
-    """Add branches to tree t for each directory in path in-place"""
+    """Add branches to tree t for each directory in path in-place. Note this function is mutually
+    recursive with build_tree."""
     for d in sorted(dirs):
         branch = t.add(f'[bold bright_cyan]{d.name}[/]' + " 📁")
         build_tree(d, filters, branch_depth, branch)
