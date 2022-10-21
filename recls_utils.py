@@ -24,8 +24,11 @@ def is_dir(path: Path) -> True:
     """Check if path leads to a directory (as opposed to a file)"""
     return path.is_dir()
 
-def partition_files_and_dirs(paths):
-    return partition(is_dir, paths)
+def partition_files_and_dirs(paths: Iterable[Path]) -> Tuple[filter, filter]:
+    """Take an iterable of Path objects and split into a pair of filter objects according to
+    whether each Path leads to a directory or a file"""
+    dirs, files = partition(is_dir, paths)
+    return dirs, files
 
 filter_out_files = make_filter(is_dir)
 filter_hidden_files_and_dirs = make_filter(lambda path: not path.name.startswith('.'))
