@@ -1,7 +1,9 @@
-from itertools import tee
-from functools import reduce
 from collections.abc import Iterable
+from functools import reduce
+from itertools import tee
+from pathlib import Path
 from typing import Any, Callable, Tuple
+
 
 def apply(funcs: Iterable[Callable], arg: Any) -> Any:
     """Call functions in funcs from left to right on arg and return result"""
@@ -18,7 +20,8 @@ def partition(pred: Callable[[Any], bool], seq: Iterable) -> Tuple[filter, filte
     seq_copy1, seq_copy2 = tee(seq)
     return filter(pred, seq_copy1), filter(lambda v: not pred(v), seq_copy2)
 
-def is_dir(path):
+def is_dir(path: Path) -> True:
+    """Check if path leads to a directory (as opposed to a file)"""
     return path.is_dir()
 
 def partition_files_and_dirs(paths):
